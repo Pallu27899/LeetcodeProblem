@@ -1,19 +1,17 @@
 class Solution {
     public int smallestDistancePair(int[] nums, int k) {
-      Arrays.sort(nums);
-        int len = nums.length;
-        int left = 0, right = nums[nums.length - 1];
-        while(left <= right){
-            int mid = left + (right - left) / 2;
-            int j = 0;
-            int count = 0;
-            for(int i = 0; i < len; i++){
-                while(j < len && nums[j] - nums[i] <= mid) ++j;
-                count += j - i - 1;
+      int len = nums.length;
+        int size = len * (len - 1) / 2;
+        int[] arr = new int[1000000];
+        for(int i = 0; i < len; i++){
+            for(int j = i + 1; j < len; j++){
+                arr[Math.abs(nums[i] - nums[j])]++;
             }
-            if(count >= k) right = mid - 1;
-            else left = mid + 1;
         }
-        return left;
+        int cur = 0;
+        while(k > 0){
+            k -= arr[cur++];
+        }
+        return cur - 1;
     }
 }
